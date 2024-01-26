@@ -5,6 +5,7 @@ import zipfile
 from datetime import datetime
 import argparse
 import subprocess
+import json
 
 def run_windows_defender_scan(file_path: str) -> str:
     """Run Windows Defender scan on file_path and return the result.
@@ -15,7 +16,7 @@ def run_windows_defender_scan(file_path: str) -> str:
     Returns:
         str: Scan result, "CLEAN" or "INFECTED".
     """
-    cmd = f'"{os.environ["ProgramFiles"]}\\Windows Defender\\MpCmdRun.exe" -Scan -ScanType 3 -File "{file_path}"'
+    cmd = f'"{os.environ["ProgramFiles"]}\\Windows Defender\\MpCmdRun.exe" -Scan -ScanType 3 -File "{os.path.abspath(file_path)}"'
     result = subprocess.run(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
     if "found no threats" in result.stdout.decode():
@@ -38,7 +39,7 @@ def scan_directory(directory, user_id):
                     readable_hash = hashlib.sha256(bytes).hexdigest()
 
                 file_info.append({
-                    "file_path": orig_file_path,
+                    "file_path": os.path.normpath(orig_file_path),
                     "user_id": user_id,
                     "virus_scan": virus_scan,
                     "hash": readable_hash
@@ -49,10 +50,9 @@ def scan_directory(directory, user_id):
 
 
     date_time_str = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-    log_filename = f"log__{date_time_str}.txt"
+    log_filename = f"log__send__{date_time_str}.txt"
     with open(log_filename, "w") as log_file:
-        for info in file_info:
-            log_file.write(str(info) + "\n")
+            json.dump(file_info, log_file)
 
     zip_filename = f"transfer__{date_time_str}.zip"
     with zipfile.ZipFile(zip_filename, "w") as zipf:

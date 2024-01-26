@@ -1,0 +1,5 @@
+User: black
+Zip file path: .\transfer__2024-01-26_17-21-36.zip
+Target directory: ./test_output
+Successfully extracted ./test_output\test/LICENSE:  hash matches and no virus found.
+Successfully extracted ./test_output\test/README.md:  hash matches and no virus found.

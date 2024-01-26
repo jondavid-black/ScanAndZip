@@ -1,0 +1,1 @@
+[{"file_path": "test\\LICENSE", "user_id": "black", "virus_scan": "CLEAN", "hash": "1eb85fc97224598dad1852b5d6483bbcf0aa8608790dcc657a5a2a761ae9c8c6"}, {"file_path": "test\\README.md", "user_id": "black", "virus_scan": "CLEAN", "hash": "ba48f6f2cff9c5000066ef9f024b934b71438d33fe4edade589da58a6422997a"}]
